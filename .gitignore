@@ -1,0 +1,8 @@
+#输出目录
+outputs
+
+.DS_Store
+**/.DS_Store
+
+sevoke-image2/scripts/__pycache__
+sevoke-image2/config.json

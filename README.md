@@ -15,7 +15,7 @@ Sevoke 直接发起以下请求，不经过 Responses API，也不提交 Codex �
 ```text
 请安装这个 Codex skill：
 
-Z:\sevoke-image-generation
+https://github.com/guofh2026-source/sevoke-image2.git
 
 安装完成后，请不要自动打开终端。请引导我自己完成配置：
 

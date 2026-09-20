@@ -13,6 +13,7 @@ Use this skill to create or edit images through an OpenAI-compatible Images API.
 - If the user's request explicitly provides a canonical API model ID, pass that exact identifier through `--image-model <model>` for both generation and editing.
 - When the request says `2.5` or `Flare` without another variant, use `gpt-image-2.5-flare`. When it says `Sunburst`, use `gpt-image-2.5-sunburst`.
 - Normalize display names such as `GPT-Image-2.5 Flare` and `GPT-Image-2.5 Sunburst` to their canonical API model IDs before passing `--image-model`.
+- The bundled Node and Python scripts also normalize these known display names when they are passed through `--image-model`; unknown model IDs are preserved unchanged.
 - Preserve an explicitly provided canonical API model identifier exactly, including its capitalization and punctuation.
 - Treat model selection as invocation metadata. Do not leave the model-selection instruction in the visual prompt sent to the Images API.
 - Do not use the Codex top-level `model` or `--response-model` to select the image model.

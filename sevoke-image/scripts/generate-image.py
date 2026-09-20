@@ -14,6 +14,21 @@ import urllib.error
 import urllib.request
 
 DEFAULT_IMAGE_MODEL = "gpt-image-2.5-flare"
+IMAGE_MODEL_ALIASES = {
+    "flare": DEFAULT_IMAGE_MODEL,
+    "gpt-image-2.5 flare": DEFAULT_IMAGE_MODEL,
+    "gpt-image-2.5-flare": DEFAULT_IMAGE_MODEL,
+    "sunburst": "gpt-image-2.5-sunburst",
+    "gpt-image-2.5 sunburst": "gpt-image-2.5-sunburst",
+    "gpt-image-2.5-sunburst": "gpt-image-2.5-sunburst",
+}
+
+
+def normalize_image_model(model):
+    if not isinstance(model, str):
+        return model
+    alias = " ".join(model.strip().lower().split())
+    return IMAGE_MODEL_ALIASES.get(alias, model)
 
 
 HELP = """Generate or edit images with the OpenAI-compatible Images API.
@@ -64,7 +79,10 @@ def parse_args():
     parser.add_argument("--action", choices=["generate", "edit", "auto"])
     parser.add_argument("--image", action="append", default=[])
     parser.add_argument("--mask")
-    parser.add_argument("--image-model", help=f"Image model (default: {DEFAULT_IMAGE_MODEL})")
+    parser.add_argument(
+        "--image-model",
+        help=f"Canonical ID or Flare/Sunburst display name (default: {DEFAULT_IMAGE_MODEL})",
+    )
     parser.add_argument("--size")
     parser.add_argument("--quality", choices=["low", "medium", "high", "auto"])
     parser.add_argument("--format", choices=["png", "webp", "jpeg"])
@@ -247,7 +265,7 @@ def validate_number(value, option_name, minimum, maximum):
 
 def build_payload(prompt, args, action):
     payload = {
-        "model": args.image_model or DEFAULT_IMAGE_MODEL,
+        "model": normalize_image_model(args.image_model or DEFAULT_IMAGE_MODEL),
         "prompt": prompt,
         "n": 1,
         "quality": args.quality or "auto",

@@ -115,7 +115,7 @@ node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-
 - `--action generate|edit|auto`
 - `--image <path>`，可重复，用于编辑
 - `--mask <path>`，用于局部重绘
-- `--image-model <model>`，默认 `gpt-image-2.5-flare`
+- `--image-model <model>`，支持 canonical ID 或 `Flare`/`Sunburst` 展示名称，默认 `gpt-image-2.5-flare`
 - `--size <size>`
 - `--quality low|medium|high|auto`
 - `--format png|webp|jpeg`
@@ -130,4 +130,4 @@ node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-
 
 ## 模型选择
 
-默认使用接口返回的模型 ID `gpt-image-2.5-flare`。当用户在请求中明确指定图片模型时，技能会将模型名转换为 `--image-model <model>`，而不是把模型指令混入图片提示词。例如“使用 `GPT-Image-2.5 Sunburst` 生成”时，应传入 API 模型 ID `gpt-image-2.5-sunburst`，覆盖默认模型。
+默认使用接口返回的模型 ID `gpt-image-2.5-flare`。当用户在请求中明确指定图片模型时，技能会将模型名转换为 `--image-model <model>`，而不是把模型指令混入图片提示词；Node/Python 脚本也会对已知展示名称做兜底归一化。例如“使用 `GPT-Image-2.5 Sunburst` 生成”时，最终请求会使用 API 模型 ID `gpt-image-2.5-sunburst`，覆盖默认模型。

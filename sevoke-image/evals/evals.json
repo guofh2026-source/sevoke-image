@@ -24,7 +24,7 @@
     {
       "id": 4,
       "prompt": "Generate a simple blue geometric icon using the GPT-Image-2.5 Sunburst model and save it to outputs/override.png.",
-      "expected_output": "The agent normalizes the display name to --image-model \"gpt-image-2.5-sunburst\", overriding the default gpt-image-2.5-flare, and saves outputs/override.png.",
+      "expected_output": "The agent passes the requested Sunburst model to --image-model, and the bundled script normalizes the display name to canonical ID \"gpt-image-2.5-sunburst\", overriding the default gpt-image-2.5-flare, and saves outputs/override.png.",
       "files": []
     }
   ]

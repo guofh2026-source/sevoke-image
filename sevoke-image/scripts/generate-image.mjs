@@ -7,6 +7,20 @@ import { fileURLToPath } from "node:url";
 
 const SKILL_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_IMAGE_MODEL = "gpt-image-2.5-flare";
+const IMAGE_MODEL_ALIASES = new Map([
+  ["flare", DEFAULT_IMAGE_MODEL],
+  ["gpt-image-2.5 flare", DEFAULT_IMAGE_MODEL],
+  ["gpt-image-2.5-flare", DEFAULT_IMAGE_MODEL],
+  ["sunburst", "gpt-image-2.5-sunburst"],
+  ["gpt-image-2.5 sunburst", "gpt-image-2.5-sunburst"],
+  ["gpt-image-2.5-sunburst", "gpt-image-2.5-sunburst"],
+]);
+
+function normalizeImageModel(model) {
+  if (typeof model !== "string") return model;
+  const alias = model.trim().toLowerCase().replace(/\s+/g, " ");
+  return IMAGE_MODEL_ALIASES.get(alias) || model;
+}
 
 const HELP = `
 Usage:
@@ -32,7 +46,7 @@ Image generation options:
   --action <generate|edit|auto>
   --image <path>              Input image. Can be repeated.
   --mask <path>               Optional inpainting mask image.
-  --image-model <model>        Defaults to gpt-image-2.5-flare.
+  --image-model <model>        Canonical ID or Flare/Sunburst display name; defaults to gpt-image-2.5-flare.
   --size <size>
   --quality <low|medium|high|auto>
   --format <png|webp|jpeg>
@@ -282,7 +296,7 @@ function numberOption(args, name, { min, max } = {}) {
 
 function buildPayload(prompt, args, action) {
   const payload = {
-    model: args["image-model"] || DEFAULT_IMAGE_MODEL,
+    model: normalizeImageModel(args["image-model"] || DEFAULT_IMAGE_MODEL),
     prompt,
     n: 1,
     quality: args.quality || "auto",

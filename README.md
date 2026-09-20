@@ -6,7 +6,7 @@ Sevoke 直接发起以下请求，不经过 Responses API，也不提交 Codex �
 
 - 新图片：`POST /images/generations`
 - 编辑或局部重绘：`POST /images/edits`
-- 默认请求模型：顶层字段 `model: "gpt-image-2.5"`
+- 默认请求模型：顶层字段 `model: "GPT-Image-2.5 Flare"`
 
 ## 安装
 
@@ -32,7 +32,7 @@ https://github.com/guofh2026-source/sevoke-image/tree/main/sevoke-image
 9. 重启后给出 generate-image.mjs 的 --dry-run 验证命令，并确认请求使用：
    - POST /images/generations
    - POST /images/edits
-   - 顶层模型 gpt-image-2.5
+   - 顶层模型 GPT-Image-2.5 Flare
    - 配置的 API URL 和 API key
 10. 不要使用 Responses API，也不要提交 Codex 外层模型。
 ```
@@ -108,14 +108,14 @@ python3 <skill-dir>/scripts/generate-image.py --prompt "A quick test image" --ou
 node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-run
 ```
 
-`--dry-run` 应显示 endpoint 以 `/images/generations` 结尾，并显示 `image_model: "gpt-image-2.5"`。生成响应使用 `data[].b64_json`；编辑请求使用 multipart 表单上传 `image`，可选上传 `mask`。脚本也兼容返回已完成图片的 SSE 响应。
+`--dry-run` 应显示 endpoint 以 `/images/generations` 结尾，并显示 `image_model: "GPT-Image-2.5 Flare"`。生成响应使用 `data[].b64_json`；编辑请求使用 multipart 表单上传 `image`，可选上传 `mask`。脚本也兼容返回已完成图片的 SSE 响应。
 
 ## 支持的参数
 
 - `--action generate|edit|auto`
 - `--image <path>`，可重复，用于编辑
 - `--mask <path>`，用于局部重绘
-- `--image-model <model>`，默认 `gpt-image-2.5`
+- `--image-model <model>`，默认 `GPT-Image-2.5 Flare`
 - `--size <size>`
 - `--quality low|medium|high|auto`
 - `--format png|webp|jpeg`
@@ -130,4 +130,4 @@ node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-
 
 ## 模型选择
 
-默认使用 `gpt-image-2.5`。当用户在请求中明确指定图片模型时，技能会将模型名转换为 `--image-model <model>`，而不是把模型指令混入图片提示词。例如“使用 `gpt-image-2` 生成”会覆盖默认模型。
+默认使用 `GPT-Image-2.5 Flare`。当用户在请求中明确指定图片模型时，技能会将模型名转换为 `--image-model <model>`，而不是把模型指令混入图片提示词。例如“使用 `GPT-Image-2.5 Sunburst` 生成”会覆盖默认的 Flare 模型。

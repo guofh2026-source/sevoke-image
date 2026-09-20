@@ -1,18 +1,19 @@
 ---
 name: sevoke-image
-description: Use this skill whenever the user asks to generate, edit, inpaint, restyle, or create bitmap images through an OpenAI-compatible Images API from Codex. This skill calls /images/generations or /images/edits directly with a configurable image model (GPT-Image-2.5 Flare by default), saves base64 image results to files, uses no npm or pip dependencies, works on Linux/macOS/Windows with either Node.js 18+ or Python 3, and uses Sevoke-specific API settings when configured before falling back to Codex settings.
+description: Use this skill whenever the user asks to generate, edit, inpaint, restyle, or create bitmap images through an OpenAI-compatible Images API from Codex. This skill calls /images/generations or /images/edits directly with a configurable image model (gpt-image-2.5-flare by default), saves base64 image results to files, uses no npm or pip dependencies, works on Linux/macOS/Windows with either Node.js 18+ or Python 3, and uses Sevoke-specific API settings when configured before falling back to Codex settings.
 ---
 
 # Sevoke Image
 
-Use this skill to create or edit images through an OpenAI-compatible Images API. The bundled scripts directly call `POST /images/generations` for new images and `POST /images/edits` for edits or inpainting. The request model is `GPT-Image-2.5 Flare` by default and is sent as the top-level `model` field; there is no outer Responses API model or `image_generation` tool call. The scripts handle config discovery, API calls, base64 decoding, and output files consistently.
+Use this skill to create or edit images through an OpenAI-compatible Images API. The bundled scripts directly call `POST /images/generations` for new images and `POST /images/edits` for edits or inpainting. The request model is `gpt-image-2.5-flare` by default and is sent as the top-level `model` field; there is no outer Responses API model or `image_generation` tool call. The scripts handle config discovery, API calls, base64 decoding, and output files consistently.
 
 ## Model Selection
 
-- Use `GPT-Image-2.5 Flare` by default.
-- If the user's request explicitly names an image model, pass that exact model identifier through `--image-model <model>` for both generation and editing.
-- When the request says `2.5` or `Flare` without another variant, use `GPT-Image-2.5 Flare`. When it says `Sunburst`, use `GPT-Image-2.5 Sunburst`.
-- Preserve an explicitly provided full model identifier exactly, including its capitalization and punctuation.
+- Use the API model ID `gpt-image-2.5-flare` by default.
+- If the user's request explicitly provides a canonical API model ID, pass that exact identifier through `--image-model <model>` for both generation and editing.
+- When the request says `2.5` or `Flare` without another variant, use `gpt-image-2.5-flare`. When it says `Sunburst`, use `gpt-image-2.5-sunburst`.
+- Normalize display names such as `GPT-Image-2.5 Flare` and `GPT-Image-2.5 Sunburst` to their canonical API model IDs before passing `--image-model`.
+- Preserve an explicitly provided canonical API model identifier exactly, including its capitalization and punctuation.
 - Treat model selection as invocation metadata. Do not leave the model-selection instruction in the visual prompt sent to the Images API.
 - Do not use the Codex top-level `model` or `--response-model` to select the image model.
 
@@ -61,7 +62,7 @@ The installed config.json is used when the Sevoke environment variables are not 
 - Otherwise read `<home>/.codex/config.toml`; this maps to `~/.codex` on Linux/macOS and `%USERPROFILE%\.codex` on Windows.
 - Use the top-level `model_provider` and that provider's `[model_providers.<name>]` table.
 - Use provider `base_url` as the API URL when `SEVOKE_IMAGE_API_URL` and the installed Sevoke `config.json` do not specify one.
-- The image request uses `GPT-Image-2.5 Flare` as its top-level `model` by default. Do not use the Codex top-level `model` as an outer request model.
+- The image request uses `gpt-image-2.5-flare` as its top-level `model` by default. Do not use the Codex top-level `model` as an outer request model.
 - Read `OPENAI_API_KEY` from the matching `auth.json` when no Sevoke key or config.json key is configured.
 - Do not ask the user for an API key when Codex config is available.
 - Do not print, log, commit, or summarize credential values.
@@ -237,7 +238,7 @@ The script maps common OpenAI Images API options:
 - `--action generate|edit|auto`
 - `--image <path>` one or more input images for guided generation or editing
 - `--mask <path>` optional inpainting mask
-- `--image-model <model>` top-level Images API model; defaults to `GPT-Image-2.5 Flare`
+- `--image-model <model>` top-level Images API model; defaults to `gpt-image-2.5-flare`
 - `--size <size>` such as `1024x1024`, `1024x1536`, `1536x1024`, or API-supported custom sizes
 - `--quality low|medium|high|auto`
 - `--format png|webp|jpeg`

@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "Generate a 1024x1024 PNG image of a matte black ceramic mug on a walnut desk with soft window light. Save it to outputs/mug.png and use the Codex API configuration without asking me for a key.",
-      "expected_output": "The agent uses the bundled script, resolves Sevoke or Codex configuration for base URL and key, calls POST /images/generations with top-level model GPT-Image-2.5 Flare, and saves outputs/mug.png.",
+      "expected_output": "The agent uses the bundled script, resolves Sevoke or Codex configuration for base URL and key, calls POST /images/generations with top-level model gpt-image-2.5-flare, and saves outputs/mug.png.",
       "files": []
     },
     {
       "id": 2,
       "prompt": "Create a transparent-background app icon of a folded paper crane, no text, centered with enough padding. Save as outputs/crane-icon.png.",
-      "expected_output": "The agent sets background transparent and png output format, calls POST /images/generations with GPT-Image-2.5 Flare, and reports the saved file path.",
+      "expected_output": "The agent sets background transparent and png output format, calls POST /images/generations with gpt-image-2.5-flare, and reports the saved file path.",
       "files": []
     },
     {
@@ -24,7 +24,7 @@
     {
       "id": 4,
       "prompt": "Generate a simple blue geometric icon using the GPT-Image-2.5 Sunburst model and save it to outputs/override.png.",
-      "expected_output": "The agent passes --image-model \"GPT-Image-2.5 Sunburst\", overriding the default GPT-Image-2.5 Flare, and saves outputs/override.png.",
+      "expected_output": "The agent normalizes the display name to --image-model \"gpt-image-2.5-sunburst\", overriding the default gpt-image-2.5-flare, and saves outputs/override.png.",
       "files": []
     }
   ]

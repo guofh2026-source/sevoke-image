@@ -13,7 +13,7 @@ import time
 import urllib.error
 import urllib.request
 
-DEFAULT_IMAGE_MODEL = "gpt-image-2"
+DEFAULT_IMAGE_MODEL = "gpt-image-2.5"
 
 
 HELP = """Generate or edit images with the OpenAI-compatible Images API.

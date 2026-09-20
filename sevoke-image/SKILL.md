@@ -1,11 +1,19 @@
 ---
-name: sevoke-image2
-description: Use this skill whenever the user asks to generate, edit, inpaint, restyle, or create bitmap images through an OpenAI-compatible Images API from Codex. This skill calls /images/generations or /images/edits directly with gpt-image-2, saves base64 image results to files, uses no npm or pip dependencies, works on Linux/macOS/Windows with either Node.js 18+ or Python 3, and uses Sevoke-specific API settings when configured before falling back to Codex settings.
+name: sevoke-image
+description: Use this skill whenever the user asks to generate, edit, inpaint, restyle, or create bitmap images through an OpenAI-compatible Images API from Codex. This skill calls /images/generations or /images/edits directly with a configurable image model (gpt-image-2.5 by default), saves base64 image results to files, uses no npm or pip dependencies, works on Linux/macOS/Windows with either Node.js 18+ or Python 3, and uses Sevoke-specific API settings when configured before falling back to Codex settings.
 ---
 
-# Sevoke Image2
+# Sevoke Image
 
-Use this skill to create or edit images through an OpenAI-compatible Images API. The bundled scripts directly call `POST /images/generations` for new images and `POST /images/edits` for edits or inpainting. The request model is `gpt-image-2` by default and is sent as the top-level `model` field; there is no outer Responses API model or `image_generation` tool call. The scripts handle config discovery, API calls, base64 decoding, and output files consistently.
+Use this skill to create or edit images through an OpenAI-compatible Images API. The bundled scripts directly call `POST /images/generations` for new images and `POST /images/edits` for edits or inpainting. The request model is `gpt-image-2.5` by default and is sent as the top-level `model` field; there is no outer Responses API model or `image_generation` tool call. The scripts handle config discovery, API calls, base64 decoding, and output files consistently.
+
+## Model Selection
+
+- Use `gpt-image-2.5` by default.
+- If the user's request explicitly names an image model, pass that exact model identifier through `--image-model <model>` for both generation and editing.
+- When the request uses an unambiguous shorthand, map `2.5` to `gpt-image-2.5` and `2` to `gpt-image-2`.
+- Treat model selection as invocation metadata. Do not leave the model-selection instruction in the visual prompt sent to the Images API.
+- Do not use the Codex top-level `model` or `--response-model` to select the image model.
 
 ## Runtime And Dependencies
 
@@ -52,7 +60,7 @@ The installed config.json is used when the Sevoke environment variables are not 
 - Otherwise read `<home>/.codex/config.toml`; this maps to `~/.codex` on Linux/macOS and `%USERPROFILE%\.codex` on Windows.
 - Use the top-level `model_provider` and that provider's `[model_providers.<name>]` table.
 - Use provider `base_url` as the API URL when `SEVOKE_IMAGE_API_URL` and the installed Sevoke `config.json` do not specify one.
-- The image request uses `gpt-image-2` as its top-level `model` by default. Do not use the Codex top-level `model` as an outer request model.
+- The image request uses `gpt-image-2.5` as its top-level `model` by default. Do not use the Codex top-level `model` as an outer request model.
 - Read `OPENAI_API_KEY` from the matching `auth.json` when no Sevoke key or config.json key is configured.
 - Do not ask the user for an API key when Codex config is available.
 - Do not print, log, commit, or summarize credential values.
@@ -228,7 +236,7 @@ The script maps common OpenAI Images API options:
 - `--action generate|edit|auto`
 - `--image <path>` one or more input images for guided generation or editing
 - `--mask <path>` optional inpainting mask
-- `--image-model <model>` top-level Images API model; defaults to `gpt-image-2`
+- `--image-model <model>` top-level Images API model; defaults to `gpt-image-2.5`
 - `--size <size>` such as `1024x1024`, `1024x1536`, `1536x1024`, or API-supported custom sizes
 - `--quality low|medium|high|auto`
 - `--format png|webp|jpeg`
@@ -257,6 +265,6 @@ If no image result is returned:
 - Check whether the response contains a refusal, tool error, or policy message.
 - Re-run with `--dry-run` to confirm config and request shape.
 - Do not retry while the original generation command is still running. Wait for a success or failure exit first.
-- Verify the configured provider supports the OpenAI-compatible Images API endpoints and `gpt-image-2`.
+- Verify the configured provider supports the OpenAI-compatible Images API endpoints and the selected image model.
 - Do not expose the API key while debugging. Redact request headers and auth fields.
 - Do not use `cat`, `type`, `Get-Content`, or similar commands on `auth.json` for debugging. Use the script's `--dry-run`, which only reports `has_api_key` and `api_key_source`.

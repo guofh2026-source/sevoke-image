@@ -1,4 +1,4 @@
-# Sevoke Image2
+# Sevoke Image
 
 这是一个 Codex skill，通过 OpenAI 兼容的 Images API 生成、编辑和局部重绘图片。
 
@@ -6,7 +6,7 @@ Sevoke 直接发起以下请求，不经过 Responses API，也不提交 Codex �
 
 - 新图片：`POST /images/generations`
 - 编辑或局部重绘：`POST /images/edits`
-- 默认请求模型：顶层字段 `model: "gpt-image-2"`
+- 默认请求模型：顶层字段 `model: "gpt-image-2.5"`
 
 ## 安装
 
@@ -14,7 +14,7 @@ Sevoke 直接发起以下请求，不经过 Responses API，也不提交 Codex �
 
 ```text
 请安装这个 Codex skill：
-https://github.com/guofh2026-source/sevoke-image-generation/tree/main/sevoke-image2
+https://github.com/guofh2026-source/sevoke-image/tree/main/sevoke-image
 
 安装完成后，不要尝试替我自动打开终端。请引导我自己打开本地终端完成配置：输出已安装技能的完整目录；输出 scripts/install-sevoke.mjs 的完整路径和带引号的可复制 node 命令；根据我的电脑系统只给出对应的终端快捷键；说明安装器会先询问 API URL，再隐藏输入 API key；不要让我在聊天中发送 API key；配置完成后告诉我重启 Codex，并给出 --dry-run 验证命令。
 ```
@@ -90,14 +90,14 @@ python3 <skill-dir>/scripts/generate-image.py --prompt "A quick test image" --ou
 node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-run
 ```
 
-`--dry-run` 应显示 endpoint 以 `/images/generations` 结尾，并显示 `image_model: "gpt-image-2"`。生成响应使用 `data[].b64_json`；编辑请求使用 multipart 表单上传 `image`，可选上传 `mask`。脚本也兼容返回已完成图片的 SSE 响应。
+`--dry-run` 应显示 endpoint 以 `/images/generations` 结尾，并显示 `image_model: "gpt-image-2.5"`。生成响应使用 `data[].b64_json`；编辑请求使用 multipart 表单上传 `image`，可选上传 `mask`。脚本也兼容返回已完成图片的 SSE 响应。
 
 ## 支持的参数
 
 - `--action generate|edit|auto`
 - `--image <path>`，可重复，用于编辑
 - `--mask <path>`，用于局部重绘
-- `--image-model <model>`，默认 `gpt-image-2`
+- `--image-model <model>`，默认 `gpt-image-2.5`
 - `--size <size>`
 - `--quality low|medium|high|auto`
 - `--format png|webp|jpeg`
@@ -109,3 +109,7 @@ node <skill-dir>/scripts/generate-image.mjs --prompt "A quick test image" --dry-
 - `--no-progress`
 
 生成任务可能需要较长时间。一次请求启动后应等待同一个命令结束，不要因为进度较慢就重复生成。
+
+## 模型选择
+
+默认使用 `gpt-image-2.5`。当用户在请求中明确指定图片模型时，技能会将模型名转换为 `--image-model <model>`，而不是把模型指令混入图片提示词。例如“使用 `gpt-image-2` 生成”会覆盖默认模型。

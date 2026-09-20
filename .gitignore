@@ -4,5 +4,5 @@ outputs
 .DS_Store
 **/.DS_Store
 
-sevoke-image2/scripts/__pycache__
-sevoke-image2/config.json
+sevoke-image/scripts/__pycache__
+sevoke-image/config.json

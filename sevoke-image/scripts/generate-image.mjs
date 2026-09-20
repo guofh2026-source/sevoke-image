@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SKILL_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DEFAULT_IMAGE_MODEL = "gpt-image-2";
+const DEFAULT_IMAGE_MODEL = "gpt-image-2.5";
 
 const HELP = `
 Usage:
@@ -32,7 +32,7 @@ Image generation options:
   --action <generate|edit|auto>
   --image <path>              Input image. Can be repeated.
   --mask <path>               Optional inpainting mask image.
-  --image-model <model>        Defaults to gpt-image-2.
+  --image-model <model>        Defaults to gpt-image-2.5.
   --size <size>
   --quality <low|medium|high|auto>
   --format <png|webp|jpeg>
